@@ -1,0 +1,229 @@
+{
+    "sections" : [
+  {
+    "PartitionKey": "2.1",
+    "RowKey": "2.1.0",
+    "sub_section": "Overviews and Key takeaways"
+  },
+  {
+    "PartitionKey": "2.1",
+    "RowKey": "2.1.1",
+    "sub_section": "2.1.1 The lifecycle of P vivax  41"
+  },
+  {
+    "PartitionKey": "2.1",
+    "RowKey": "2.1.2",
+    "sub_section": "2.1.2  Recurrence of P vivax"
+  },
+  {
+    "PartitionKey": "2.1",
+    "RowKey": "2.1.3",
+    "sub_section": "2.1.3 Geographical distribution of P Vivax"
+  },
+  {
+    "PartitionKey": "2.1",
+    "RowKey": "2.1.3.1",
+    "sub_section": "2.1.3.1 Impact of geography on P. vivax malaria relapse"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.1",
+    "sub_section": "2.2.1 Challenges in estimating the epidemiological burden of P. vivax"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.2",
+    "sub_section": "2.2.2.  P. vivax parasitaemia"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.2.1",
+    "sub_section": "2.2.2.1 Parasitaemia in children"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.3.1",
+    "sub_section": "2.2.3.1 Risk Factors"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.3.2",
+    "sub_section": "2.2.3.2 Incidence"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.3.3",
+    "sub_section": "2.2.3.3 Mortality"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.3.4",
+    "sub_section": "2.2.3.4 Epidemiology in children"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.4",
+    "sub_section": "2.2.4 P. vivax relapse"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.4.1",
+    "sub_section": "2.2.4.1 Relapses in children"
+  },
+  {
+    "PartitionKey": "2.2",
+    "RowKey": "2.2.5.1",
+    "sub_section": "2.2.5.1 P. vivax malaria in non-endemic countries"
+  },
+  {
+    "PartitionKey": "2.3",
+    "RowKey": "2.3.0",
+    "sub_section": "2.3 Key takeways"
+  },
+  {
+    "PartitionKey": "2.3",
+    "RowKey": "2.3.1",
+    "sub_section": "2.3.1 Clinical presentation"
+  },
+  {
+    "PartitionKey": "2.3",
+    "RowKey": "2.3.1.1",
+    "sub_section": "2.3.1.1 Presentation in children"
+  },
+  {
+    "PartitionKey": "2.3",
+    "RowKey": "2.3.2",
+    "sub_section": "2.3.2 Disease complications and mortality"
+  },
+  {
+    "PartitionKey": "2.3",
+    "RowKey": "2.3.2.1",
+    "sub_section": "2.3.2.1 Complications in children"
+  },
+  {
+    "PartitionKey": "2.3",
+    "RowKey": "2.3.3",
+    "sub_section": "2.3.3 DALY Burden"
+  },
+  {
+    "PartitionKey": "2.3",
+    "RowKey": "2.3.4",
+    "sub_section": "2.3.4 Diagnosis challenges"
+  },
+  {
+    "PartitionKey": "2.3",
+    "RowKey": "2.3.4.1",
+    "sub_section": "2.3.4.1 Diagnosis in children"
+  },
+  {
+    "PartitionKey": "2.4",
+    "RowKey": "2.4.1.1",
+    "sub_section": "2.4.1.1 Direct costs associated with P.vivax malaria in pregnancy"
+  },
+  {
+    "PartitionKey": "2.4",
+    "RowKey": "2.4.1",
+    "sub_section": "2.4.1"
+  },
+  {
+    "PartitionKey": "2.4",
+    "RowKey": "2.4.2",
+    "sub_section": "2.4.2 Indirect costs of P.vivax malaria"
+  },
+  {
+    "PartitionKey": "2.4",
+    "RowKey": "2.4.3",
+    "sub_section": "2.4.3 Economic burden of P.vivax relapse"
+  },
+  {
+    "PartitionKey": "3.1",
+    "RowKey": "3.1.0",
+    "sub_section": "3.1.0 Overview"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.0",
+    "sub_section": "3.2.0 Current treatments"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.1",
+    "sub_section": "3.2.1 Treatment of the blood-stage of P. vivax malaria"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.1.1",
+    "sub_section": "3.2.1.1 Chloroquine"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.1.2",
+    "sub_section": "3.2.1.2 Artemisinin-based combination therapies"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.2",
+    "sub_section": "3.2.2 Treatment of the liver-stage of P. vivax malaria: primaquine"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.2.1",
+    "sub_section": "3.2.2.1 Efficacy in adults and children"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.2.2",
+    "sub_section": "3.2.2.2 Primaquine combination"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.2.3",
+    "sub_section": "3.2.2.3 Primaquine non-adherence"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.2.4",
+    "sub_section": "3.2.2.4 Primaquine failure"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.2.5",
+    "sub_section": "3.2.2.5 Primaquine and G6PD deficiency"
+  },
+  {
+    "PartitionKey": "3.2",
+    "RowKey": "3.2.2.6",
+    "sub_section": "3.2.2.6 Competitor landscape"
+  },
+  {
+    "PartitionKey": "3.3",
+    "RowKey": "3.3.0",
+    "sub_section": "3.3.0 Guidelines for the management of P. vivax malaria"
+  },
+  {
+    "PartitionKey": "3.3",
+    "RowKey": "3.3.1",
+    "sub_section": "3.3.1 WHO guidelines"
+  },
+  {
+    "PartitionKey": "3.3",
+    "RowKey": "3.3.2",
+    "sub_section": "3.3.2 National guidelines"
+  },
+  {
+    "PartitionKey": "3.3",
+    "RowKey": "3.3.2.1",
+    "sub_section": "3.3.2.1 Published opinion on pediatric treatment"
+  },
+  {
+    "PartitionKey": "3.4",
+    "RowKey": "3.4.0",
+    "sub_section": "3.4.0 Real-life adherence to guidelines"
+  },
+  {
+    "PartitionKey": "3.5",
+    "RowKey": "3.5.0",
+    "sub_section": "3.5.0 Summary of unmet needs"
+  }
+]
+}

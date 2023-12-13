@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GVD Document Generation</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<style>
+    body {
+        font-family: "Source Sans Pro", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        /* Make body take the full viewport height */
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f36633;
+        padding: 10px 20px;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    .header h1 {
+        color: white;
+    }
+
+    #homeButton,
+    #logoutButton {
+        background-color: #f36633;
+        color: white;
+        padding: 10px;
+        border: 2px solid #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    #homeButton:hover,
+    #logoutButton:hover {
+        background-color: #c23c00;
+    }
+
+    #main-container {
+        display: flex;
+        flex-grow: 1;
+    }
+
+    #sidebar {
+        width: 400px; /* Fixed width to 400px */
+        background-color: #f9f9f9;
+        /* Background color */
+        color: #333;
+        /* Text color */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		margin-bottom: 15px;
+		margin-left: 10px;
+    }
+
+    #sidebar button {
+        background-color: #f36633;;
+        /* Button background color */
+        color: white;
+        /* Button text color */
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        /* Adjust spacing between buttons */
+        width: 100%;
+        /* Make buttons take full width */
+    }
+	
+	   #sidebar button:hover {
+		background-color: #c23c00;
+		/* Add hover effect styling */
+    }
+
+
+    #sub_section {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        color: #333;
+    }
+
+    #selectedFolder {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        color: #333;
+    }
+
+    #pdf_files {
+        padding: 8px;
+    }
+
+    #tab-container {
+        display: flex;
+        flex-grow: 1; /* Updated to occupy full height */
+        flex-direction: column;
+        margin-left: 20px; /* Adjust margin as needed */
+    }
+
+    .tab {
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+        background-color: #f36633;
+        /* Updated color code */
+        border-radius: 5px 5px 0 0;
+        margin-right: 10px;
+    }
+
+    .tab:hover {
+        background-color: #ddd;
+    }
+
+    #documentSummaryContainer {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #fff; /* Updated to white background */
+        border: 1px solid #ddd; /* Added border */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-left: 20px;
+        text-align: center; /* Center text */
+		margin-bottom: 15px;
+		margin-right: 20px;
+    }
+
+    #documentSummaryHeader {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #333; /* Added text color */
+    }
+
+	#documentSummaryContent {
+		color: #555; /* Text color */
+		overflow-y: auto; /* Enable vertical scroll if needed */
+		max-height: 65vh; /* Set maximum height as a percentage of the viewport height */
+		padding: 10px; /* Add some padding for better appearance */
+		line-height: 2; /* Adjust line height for better readability */
+		font-size: 16px; /* Adjust font size for better readability */
+		
+	}
+
+	#documentSummaryContent p {
+		margin-bottom: 15px; /* Add space between paragraphs */
+	}
+
+	#documentSummaryPlaceholder {
+		color: #888; /* Placeholder text color */
+		font-style: italic; /* Italicize the placeholder text */
+	}
+	
+    #tab-container h1 {
+        text-align: center; /* Center the text */
+        font-size: 2rem; /* Adjust font size as needed */
+        margin-bottom: 10px;
+        color: #333; /* Added text color */
+    }
+	
+		#uploadlabel,#sub_sectionlabel, #generateAllSummarylabel {
+		font-size: 1.2rem;
+		margin-bottom: 5px;
+		border-radius: 10px;
+		color: #f36633;; /* Header text color */
+		text-align: center;
+	}
+
+	#subsectionForm, #uploadForm, #generateAllSummaryForm{
+		border: 1px solid #ddd;
+		border-radius: 10px;
+		padding: 10px;
+		margin-bottom: 10px;
+	}
+	
+	.file-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	}
+
+	  p {
+      margin-bottom: 20px; /* Add some bottom margin */
+    }
+	
+		.remove-button {
+		background-color: #ff6666;
+		color: white;
+		border: none;
+		padding: 5px 10px;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+	
+	
+	#generateDocumentButton {
+		background-color: #f36633;
+		color: white;
+		padding: 10px; /* Adjust the padding to reduce the button size */
+		border: 2px solid #fff;
+		border-radius: 5px; /* Adjust the border-radius for rounded corners */
+		cursor: pointer;
+		text-align: center;
+		margin-top: 10px; /* Adjust margin as needed */
+		margin-bottom: 10px;
+		margin-right: 20px;
+		margin-left: 20px;
+	}
+
+    #generateDocumentButton:hover {
+        background-color: #c23c00;
+        /* Add hover effect styling */
+    }
+
+	
+	
+	}
+</style>
+
+<body>
+    <div class="header">
+        <!-- Home Button -->
+        <!-- Replace path  -->
+		<button id="homeButton" onclick="goHome()">Home</button>
+
+        <h1 class="text-2xl font-bold mb-0">Global Value Dossier- Document Generation</h1>
+
+        <!-- Logout Button -->
+        <button id="logoutButton" onclick="logout()">Logout</button>
+    </div>
+
+    <div id="main-container">
+        <div id="sidebar">
+		
+			<form id="generateAllSummaryForm">
+				<label id="generateAllSummaryLabel">Generate All Summaries</label>
+				<button   type="button" onclick="generateAllSummaries()">Generate Summary Preview</button>
+			</form>
+			
+            <form id="subsectionForm">
+				<label id="sub_sectionlabel" for="sub_section">Generate Summary: Sub Sections</label>
+                <select id="sub_section" name="sub_section" onchange="onDropDownChange()">
+                    <option value="" selected disabled>Select Summary Sections</option>
+                    {% for sub_section in sub_sections %}
+                    <option value="{{ sub_section }}">{{ sub_section }}</option>
+                    {% endfor %}
+                </select>
+            </form>		
+
+
+
+			
+            <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+				<label id="uploadlabel" for="pdf_file">Upload PDF files</label>
+                <!-- Other form elements -->
+                <input type="file" id="pdf_files" name="pdf_file" accept=".pdf" multiple required onchange="displaySelectedFiles()">
+				
+							<!-- Display selected files -->
+					<div class="selected-files" id="selectedFiles">
+						<h2>Selected Files:</h2>
+						<!-- Display selected files here dynamically -->
+					</div>
+						
+                <select id="selectedFolder" name="selectedFolder">
+                    <option value="" selected disabled>Select Azure Folder</option>
+                    {% for folder in folders %}
+                    <option value="{{ folder }}">{{ folder }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Upload</button>
+            </form>
+			
+			<button id="regenerateSummaryButton" onclick="regenerateSummary()">Regenrate Summary</button>
+
+        </div>
+
+        <!-- content -->
+        <div id="tab-container">
+		    <!-- content 
+            <h1 class="text-2xl font-bold mb-0">Document Summary</h1>
+			-->
+            <div id="documentSummaryContainer">
+                <h2 id="documentSummaryHeader" class="text-center "></h2>
+                <div id="documentSummaryContent">
+                     <p id="documentSummaryPlaceholder">Document Summary will appear here...</p>
+                </div>
+            </div>
+			<button id="generateDocumentButton" onclick="generateDocument()">Generate Document</button>
+        </div>
+		
+    </div>
+
+    <script>
+	
+        function onDropDownChange() {
+            // Fetch and update summary content
+            var sub_section = document.getElementById('sub_section');
+            var selected_sub_section = sub_section.options[sub_section.selectedIndex].value;
+
+            fetch('/get_details', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'sub_section=' + selected_sub_section
+                })
+                .then(response => response.json())
+                .then(data => {
+                    var documentSummaryHeader = document.getElementById('documentSummaryHeader');
+                    var documentSummaryContent = document.getElementById('documentSummaryContent');
+
+                    documentSummaryHeader.innerHTML = 'Document Summary for ' + selected_sub_section;
+                    documentSummaryContent.innerHTML = '<p style="text-align: left;" >' + data.Summary + '</p>';
+                });
+        }
+		
+			function generateAllSummaries() {
+			fetch('/generate_all_summaries', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					}
+				})
+				.then(response => response.json())
+				.then(data => {
+					// Update document summary section with received data
+					var documentSummaryHeader = document.getElementById('documentSummaryHeader');
+					var documentSummaryContent = document.getElementById('documentSummaryContent');
+
+					documentSummaryHeader.innerHTML = 'All Document Summaries';
+
+					// Clear previous content
+					documentSummaryContent.innerHTML = '';
+
+					// Display JSON data in the documentSummaryContent
+					data.forEach(item => {
+						const section = item.Section;
+						const summary = item.Summary;
+
+						const summaryItem = document.createElement('div');
+						summaryItem.innerHTML = `<h1 style="text-align: center;">${section}</h1><p style="text-align: left;">${summary}</p>`;
+
+
+						documentSummaryContent.appendChild(summaryItem);
+					});
+				});
+		}
+		
+		  function displaySelectedFiles() {
+            const fileInput = document.getElementById('pdf_files');
+            const selectedFilesContainer = document.getElementById('selectedFiles');
+
+            // Clear previous selections
+            selectedFilesContainer.innerHTML = '';
+
+            // Display selected files
+            for (const file of fileInput.files) {
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('file-item');
+
+                const fileName = document.createElement('span');
+                fileName.textContent = file.name;
+
+                const removeButton = document.createElement('remove_button');
+                removeButton.classList.add('remove-button');
+                removeButton.textContent = 'Remove';
+                removeButton.addEventListener('click', () => {
+                    // Implement logic to remove the selected file
+                    fileItem.remove();
+                });
+
+                fileItem.appendChild(fileName);
+                fileItem.appendChild(removeButton);
+
+                selectedFilesContainer.appendChild(fileItem);
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
