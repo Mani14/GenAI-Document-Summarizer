@@ -1,25 +1,25 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_file
 import os
-import PyPDF2
-from azure.storage.blob import BlobServiceClient, ContainerClient
+from azure.storage.blob import BlobServiceClient
 import json
-import os
 from azure.data.tables import TableServiceClient
-from datetime import datetime
+import docx
+from docx.shared import Inches
 
+# Get the current working directory
 current_path = os.getcwd()
 print(f"Current Path: {current_path}")
 
 app = Flask(__name__)
 
-# initializing table service and table client
+# Initializing table service and table client
 connection_string = "DefaultEndpointsProtocol=https;AccountName=gvdstorage;AccountKey=tam4CCOAGP2XxBWfylUNmx3isscihpX/tt7dKW4ZTQiYZUT8gIYmjDZ7FxFHar/z6dJpiGD1NE2H+AStmEmQiw==;EndpointSuffix=core.windows.net"
 table_service_client = TableServiceClient.from_connection_string(conn_str=connection_string)
 
 table_name = "GVDSummary"
 table_client = table_service_client.get_table_client(table_name)
 
-# Replace these values with your actual Azure Storage account details
+# Azure Storage account details
 ACCOUNT_NAME = 'gvdstorage'
 ACCOUNT_KEY = 'tam4CCOAGP2XxBWfylUNmx3isscihpX/tt7dKW4ZTQiYZUT8gIYmjDZ7FxFHar/z6dJpiGD1NE2H+AStmEmQiw'
 CONTAINER_NAME = 'gvdcontainer2'
@@ -45,7 +45,7 @@ def list_folders():
                 folders.add(folder_path)
 
     return list(folders)
-            
+
 def load_data():
     with open('C:/Users/mk742457/OneDrive - GSK/one-drive-docs-gsk/2023/DDF-Chatbot/chatbot-webapp/templates/new_flask_app/section.json') as f:
         return json.load(f)
@@ -54,11 +54,12 @@ def load_data():
 data = load_data()
 sub_sections = [section['sub_section'] for section in data['sections']]
 
-
-@app.route('/', methods=['GET', 'POST'])    
+@app.route('/', methods=['GET', 'POST'])
 def index():
     try:
-        print("in index")
+        with open('C:/Users/mk742457/OneDrive - GSK/one-drive-docs-gsk/2023/DDF-Chatbot/chatbot-webapp/templates/new_flask_app/section.json') as f:
+            data = json.load(f)
+        sub_sections = [section['sub_section'] for section in data['sections']]
         return render_template('home.html', folders=list_folders(), summary1=None, sub_sections=sub_sections, selected_sub_section=None, details=None)
 
     except Exception as e:
@@ -66,7 +67,6 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    # Handle file upload logic here
     try:
         # Get the selected folder and uploaded file
         selected_folder = request.form.get('selectedFolder')
@@ -89,33 +89,31 @@ def upload():
 
     except Exception as e:
         return jsonify({'error': str(e)})
-          
-       
+
 @app.route('/get_details', methods=['POST'])
 def get_details():
     selected_sub_section = request.form['sub_section']
-    
+
     details = None
     for section in data['sections']:
         if section['sub_section'] == selected_sub_section:
             details = section
             break
-    return query_entity(details['PartitionKey'],details['RowKey'])
-    
+    return query_entity(details['PartitionKey'], details['RowKey'])
 
-def query_entity(partition_key,row_key):
+def query_entity(partition_key, row_key):
     my_filter = "PartitionKey eq '"+partition_key+"' and RowKey eq '"+row_key+"'"
     table_client = table_service_client.get_table_client(table_name=table_name)
     entities = table_client.query_entities(my_filter)
     for entity in entities:
         for key in entity.keys():
-            if key =="Summary":
-                return jsonify({'Summary' : entity[key]})
-
+            if key == "Summary":
+                return jsonify({'Summary': entity[key]})
 
 @app.route('/generate_all_summaries', methods=['POST'])
 def generate_all_summaries():
     try:
+        print("in all summary")
         # Add the code to query entities and create a JSON variable
         query_filter = ""
 
@@ -124,7 +122,7 @@ def generate_all_summaries():
 
         # Create a list to store the extracted data
         data_list = []
-        
+
         # Extract required properties and store them in a list of dictionaries
         for entity in entities:
             data_dict = {
@@ -139,16 +137,47 @@ def generate_all_summaries():
     except Exception as e:
         return jsonify({'error': str(e)})
 
-@app.route('/generate_document', methods=['POST'])
+def generatedoc_query_entity(partition_key, row_key):
+    txt = ''
+    my_filter = "PartitionKey eq '"+partition_key+"' and RowKey eq '"+row_key+"'"
+    table_client = table_service_client.get_table_client(table_name=table_name)
+    entities = table_client.query_entities(my_filter)
+    for entity in entities:
+        for key in entity.keys():
+            if key == 'Summary':
+                txt += str(entity[key])
+    return txt
+
+@app.route('/generate_document')
 def generate_document():
-    # Add your logic for document generation here
-    # You can access form data using request.form
-    # For example, selected_sub_section = request.form.get('sub_section')
+    try:
+        # Load data from the JSON file
+        f = open('C:/Users/mk742457/OneDrive - GSK/one-drive-docs-gsk/2023/DDF-Chatbot/chatbot-webapp/templates/new_flask_app/all_file_changed_key_complete.json')
+        data_req = json.load(f)
+        f.close()
 
-    # Dummy response for testing
-    document_content = "This is a sample document content."
+        # Create a Word document
+        doc = docx.Document()
+        doc.add_picture('gsklogo.jpg', width=Inches(1.25))
+        doc.add_heading('Value Evidence Dossier', 0)
 
-    return jsonify({'document_content': document_content})        
-        
+        for i in range(0, len(data_req['sections'])):
+            main_section_temp = data_req['sections'][i]['PartitionKey']
+            section_temp = data_req['sections'][i]['RowKey']
+            subsection = data_req['sections'][i]['sub_section_name']
+            if(len(generatedoc_query_entity(main_section_temp, section_temp))):
+                sub_heading = doc.add_heading(subsection, 1)
+                para = doc.add_paragraph().add_run(generatedoc_query_entity(main_section_temp, section_temp))
+
+        # Save the Word document
+        doc_filename = "Value_Evidence_Dossier.docx"
+        doc.save(doc_filename)
+
+        return send_file(doc_filename, as_attachment=True)
+
+    except Exception as e:
+        # Return an error message as JSON
+        return jsonify({'success': False, 'error': str(e)})
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000,debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

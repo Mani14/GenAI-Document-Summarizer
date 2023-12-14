@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
     <title>GVD Document Generation</title>
     <!-- Include Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -244,7 +245,9 @@
     <div class="header">
         <!-- Home Button -->
         <!-- Replace path  -->
-		<button id="homeButton" onclick="goHome()">Home</button>
+		<button id="homeButton" onclick="goHome()">
+			<img src="{{ url_for('static', filename='GSK_Logo.gif') }}" alt="Home" preload>
+		</button>
 
         <h1 class="text-2xl font-bold mb-0">Global Value Dossier- Document Generation</h1>
 
@@ -308,7 +311,7 @@
                      <p id="documentSummaryPlaceholder">Document Summary will appear here...</p>
                 </div>
             </div>
-			<button id="generateDocumentButton" onclick="generateDocument()">Generate Document</button>
+			<a id="generateDocumentButton" href="{{ url_for('.generate_document') }}">Generate Document</a>
         </div>
 		
     </div>
@@ -421,6 +424,7 @@ function simulateTypingEffect(text, targetElement, speed, charactersPerChunk) {
 
 					// Add an h1 header to the section
 					const h1Header = document.createElement('h1');
+					h1Header.style.textAlign = 'left';
 					h1Header.innerText = section;
 					summaryItem.appendChild(h1Header);
 
@@ -459,6 +463,7 @@ function simulateTypingEffect(text, targetElement, speed, charactersPerChunk) {
                 selectedFilesContainer.appendChild(fileItem);
             }
         }
+		
 
     </script>
 

@@ -1,0 +1,40 @@
+body {
+    display: flex;
+}
+
+#sidebar {
+    width: 20%;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+#content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+h1, h2 {
+    color: #333;
+}
