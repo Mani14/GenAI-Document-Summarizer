@@ -315,59 +315,120 @@
 
     <script>
 	
-        function onDropDownChange() {
-            // Fetch and update summary content
-            var sub_section = document.getElementById('sub_section');
-            var selected_sub_section = sub_section.options[sub_section.selectedIndex].value;
+           function onDropDownChange() {
+        // Fetch and update summary content
+        var sub_section = document.getElementById('sub_section');
+        var selected_sub_section = sub_section.options[sub_section.selectedIndex].value;
 
-            fetch('/get_details', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'sub_section=' + selected_sub_section
-                })
-                .then(response => response.json())
-                .then(data => {
-                    var documentSummaryHeader = document.getElementById('documentSummaryHeader');
-                    var documentSummaryContent = document.getElementById('documentSummaryContent');
+        fetch('/get_details', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'sub_section=' + selected_sub_section
+            })
+            .then(response => response.json())
+            .then(data => {
+                var documentSummaryHeader = document.getElementById('documentSummaryHeader');
+                var documentSummaryContent = document.getElementById('documentSummaryContent');
 
-                    documentSummaryHeader.innerHTML = 'Document Summary for ' + selected_sub_section;
-                    documentSummaryContent.innerHTML = '<p style="text-align: left;" >' + data.Summary + '</p>';
-                });
-        }
-		
-			function generateAllSummaries() {
-			fetch('/generate_all_summaries', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-					}
-				})
-				.then(response => response.json())
-				.then(data => {
-					// Update document summary section with received data
-					var documentSummaryHeader = document.getElementById('documentSummaryHeader');
-					var documentSummaryContent = document.getElementById('documentSummaryContent');
+                documentSummaryHeader.innerHTML = 'Document Summary for ' + selected_sub_section;
 
-					documentSummaryHeader.innerHTML = 'All Document Summaries';
+                // Clear previous content
+                documentSummaryContent.innerHTML = '';
 
-					// Clear previous content
-					documentSummaryContent.innerHTML = '';
+                // Simulate chat-like typing effect
+                simulateTyping(documentSummaryContent, data.Summary);
+            });
+    }
 
-					// Display JSON data in the documentSummaryContent
-					data.forEach(item => {
-						const section = item.Section;
-						const summary = item.Summary;
+		function simulateTyping(element, text) {
+		const words = text.split(' ');
+		let index = 0;
+		const typingSpeed = .0001; // Adjust the typing speed (milliseconds)
 
-						const summaryItem = document.createElement('div');
-						summaryItem.innerHTML = `<h1 style="text-align: center;">${section}</h1><p style="text-align: left;">${summary}</p>`;
-
-
-						documentSummaryContent.appendChild(summaryItem);
-					});
-				});
+		function typeNextWord() {
+			if (index < words.length) {
+				element.innerHTML = '<p style="text-align: left;">' + words.slice(0, index + 1).join(' ') + '</p>';
+				index++;
+				setTimeout(typeNextWord, typingSpeed);
+			}
 		}
+
+		typeNextWord();
+	}
+			
+	function factorial(n) {
+	if (n === 0 || n === 1) {
+		return 1;
+	} else {
+		return n * factorial(n - 1);
+	}
+}
+
+function simulateTypingEffect(text, targetElement, speed, charactersPerChunk) {
+    return new Promise((resolve) => {
+        let index = 0;
+
+        const typingInterval = setInterval(() => {
+            if (text[index] === '<') {
+                // If the character is '<', find the closing '>'
+                const tagEnd = text.indexOf('>', index);
+                targetElement.innerHTML += text.substring(index, tagEnd + 1);
+                index = tagEnd + 1;
+            } else {
+                const chunk = text.substr(index, charactersPerChunk);
+                targetElement.innerHTML += chunk;
+                index += charactersPerChunk;
+
+                // Increase charactersPerChunk factorially
+                charactersPerChunk *= factorial(3); // Change the argument as needed
+            }
+
+            if (index >= text.length) {
+                clearInterval(typingInterval);
+                resolve();
+            }
+        }, speed * 0.9 * 0.9 );
+    });
+}
+
+
+	function generateAllSummaries() {
+		fetch('/generate_all_summaries', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+		})
+			.then((response) => response.json())
+			.then(async (data) => {
+				var documentSummaryHeader = document.getElementById('documentSummaryHeader');
+				var documentSummaryContent = document.getElementById('documentSummaryContent');
+
+				documentSummaryHeader.innerHTML = 'All Document Summaries';
+				documentSummaryContent.innerHTML = '';
+
+				for (const item of data) {
+					const section = item.Section;
+					const summary = item.Summary;
+
+					const summaryItem = document.createElement('div');
+					documentSummaryContent.appendChild(summaryItem);
+
+					// Left justify the summary
+					summaryItem.style.textAlign = 'left';
+
+					// Add an h1 header to the section
+					const h1Header = document.createElement('h1');
+					h1Header.innerText = section;
+					summaryItem.appendChild(h1Header);
+
+					await simulateTypingEffect(`<p>${summary}</p>`, summaryItem, 50, 1);
+				}
+			});
+	}
+
 		
 		  function displaySelectedFiles() {
             const fileInput = document.getElementById('pdf_files');
